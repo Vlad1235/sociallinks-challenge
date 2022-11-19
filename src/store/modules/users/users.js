@@ -4,13 +4,14 @@ import {
     DELETE_USER_BY_ID,
     GET_ALL_USERS,
     GET_ALL_USERS_BY_PAGE,
-    HIDE_MODAL, SELECT_USER,
-    SHOW_MODAL, UNSELECT_USER
+    HIDE_MODAL,
+    SELECT_USER,
+    SHOW_MODAL,
+    UNSELECT_USER
 } from "@/store/actions/users/users";
 import api from '@/api/users/users'
-import {toRaw} from "vue";
 
-const defaultUser = function () {
+function defaultUser() {
     return {
         user: {
             id: '',
@@ -29,10 +30,7 @@ const defaultUser = function () {
 }
 
 const getters = {
-    getAllUsersByPage: (state) => {
-        const pagedUserListElement = state.pagedUserList[state.page - 1];
-        return pagedUserListElement;
-    },
+    getAllUsersByPage: (state) => state.pagedUserList[state.page - 1],
     getTotalPages: (state) => state.totalPages,
     getIsUsersLoading: (state) => state.isUsersLoading,
     getDialogVisible: (state) => state.dialogVisible,
@@ -42,7 +40,7 @@ const getters = {
 }
 const state = {
     users: [],
-    selectedUser: defaultUser(),
+    selectedUser: {},
     dialogVisible: false,
     paginationVisible: false,
     isUsersLoading: true,
@@ -114,7 +112,7 @@ const mutations = {
         let end = state.users.length < state.limit ? state.users.length : state.limit;
         for (let i = 1; i <= requiredAmountOfPages; i++) {
             const sliceArrayOfUsers = response.slice(index, end);
-            list.push(sliceArrayOfUsers);
+            list.splice(i,0, sliceArrayOfUsers);
             index += state.limit;
             end = state.users.length < (state.limit + index) ? state.users.length : state.limit;
         }
@@ -132,15 +130,15 @@ const mutations = {
         state.isUsersLoading = true;
     },
     deleteUserById(state, userToDelete) {
-        console.log('==========deleteUserById===============')
+        state.users = state.users.filter(item => item.id !== userToDelete.id);
         let pagedUserListElement = state.pagedUserList[state.page - 1];
         let filterByPageList = pagedUserListElement.filter(item => item.id !== userToDelete.id);
         state.pagedUserList[state.page - 1] = [...filterByPageList];
-
-        state.users = state.users.filter(item => item.id !== userToDelete.id);
         if (state.pagedUserList[state.page - 1].length === 0) {
             state.totalPages -= 1;
-            state.page -= 1;
+            if(state.page > 1) {
+                state.page -= 1;
+            }
             state.paginationVisible = false
         }
     },
@@ -152,7 +150,7 @@ const mutations = {
         let end = state.users.length < state.limit ? state.users.length : state.limit;
         for (let i = 1; i <= requiredAmountOfPages; i++) {
             const sliceArrayOfUsers = state.users.slice(index, end);
-            list.push(sliceArrayOfUsers);
+            list.splice(i,0, sliceArrayOfUsers);
             index += state.limit;
             end = state.users.length < (state.limit + index) ? state.users.length : state.limit;
         }
@@ -173,7 +171,7 @@ const mutations = {
         state.selectedUser = Object.assign({}, selectedUser);
     },
     unselectUser(state) {
-        state.selectedUser = Object.assign({}, defaultUser());
+        state.selectedUser = {};
     }
 }
 

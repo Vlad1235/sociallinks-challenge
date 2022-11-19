@@ -7,7 +7,7 @@
 <script>
 import L from 'leaflet';
 import {mapGetters} from "vuex";
-import {createApp, toRaw} from "vue";
+import {createApp} from "vue";
 import MyMarkerUser from "@/components/MyMarkerUserСomponent";
 import store from "@/store";
 
@@ -28,20 +28,19 @@ export default {
   },
   methods: {
     createMapLayer() {
-      console.log('========createMapLayer===========')
-      console.log('this.getAllUsersByPage', toRaw(this.getAllUsersByPage))
       if (this.mapItem !== null) {
         this.mapItem = this.mapItem.remove();
       }
       this.mapItem = L.map('my-leaflet').setView([0, 0], 5);
       L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=DdahMMpeAPPznrP3C8bF', {}).addTo(this.mapItem);
-      this.getAllUsersByPage.forEach(user => {
-        const {address: {geo: {lat, lng}}} = user;
-        var markerOne = L.marker([lat, lng]).addTo(this.mapItem);
-
-        markerOne.bindPopup(this.triggerHighlight(user))
-        // markerOne.bindPopup(this.getPopupLayout(user))
-      })
+      if (this.getAllUsersByPage !== undefined && this.getAllUsersByPage.length !== 0) {
+        this.getAllUsersByPage.forEach(user => {
+          const {address: {geo: {lat, lng}}} = user;
+          var markerOne = L.marker([lat, lng]).addTo(this.mapItem);
+          markerOne.bindPopup(this.triggerHighlight(user))
+          // markerOne.bindPopup(this.getPopupLayout(user))
+        })
+      }
     },
     getPopupLayout(user) {
       const {address: {city, street, suite, zipcode}} = user;
@@ -74,15 +73,15 @@ export default {
   },
   watch: {
     getAllUsersByPage() {
-      if (this.getAllUsersByPage !== undefined && this.getAllUsersByPage.length !== 0) {
-        this.createMapLayer()
-      }
+      this.createMapLayer()
     },
     getSelectedUser() {
-      const {address: {geo: {lat, lng}}} = this.getSelectedUser;
-      this.mapItem.setView([lat, lng], 5);
-      var markerOne = L.marker([lat, lng]).addTo(this.mapItem);
-      markerOne.bindPopup(this.triggerHighlight(this.getSelectedUser)).openPopup()
+      if (Object.keys(this.getSelectedUser).length !== 0 && this.getAllUsersByPage !== undefined && this.getAllUsersByPage.length !== 0 ) {
+        const {address: {geo: {lat, lng}}} = this.getSelectedUser;
+        this.mapItem.setView([lat, lng], 5);
+        var markerOne = L.marker([lat, lng]).addTo(this.mapItem);
+        markerOne.bindPopup(this.triggerHighlight(this.getSelectedUser)).openPopup()
+      }
     }
   }
 }
