@@ -23,6 +23,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+
 .my-sidebar {
   grid-row: 1/3;
 
@@ -31,4 +33,42 @@ export default {
     display: flex;
   }
 }
+
+@media (max-width: 992px) {
+  .my-sidebar {
+    grid-row: 1/3;
+
+    &__btn {
+      margin: 15px 0px;
+      display: flex;
+    }
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .my-sidebar {
+    grid-row: 1/3;
+
+    &__btn {
+      margin: 15px 0px;
+      display: flex;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+
+  .my-sidebar {
+    grid-row: 2/3;
+
+    &__btn {
+
+    }
+  }
+
+}
+
+
 </style>

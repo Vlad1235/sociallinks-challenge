@@ -89,6 +89,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+
 .my-map {
   border: 1px solid $main-color;
   grid-row: 1/3;
@@ -101,6 +103,61 @@ export default {
 
 .leaflet-user {
   padding: 5px;
+}
+
+@media (max-width: 992px) {
+
+  .my-map {
+    border: 1px solid $main-color;
+    grid-row: 1/3;
+  }
+
+  #my-leaflet {
+    height: 100%;
+    width: 100%;
+  }
+
+  .leaflet-user {
+    padding: 5px;
+  }
+
+
+}
+
+@media (max-width: 768px) {
+
+  .my-map {
+    border: 1px solid $main-color;
+    grid-row: 1/3;
+  }
+
+  #my-leaflet {
+    height: 100%;
+    width: 100%;
+  }
+
+  .leaflet-user {
+    padding: 5px;
+  }
+
+}
+
+@media (max-width: 425px) {
+
+  .my-map {
+    grid-row: 1/1;
+  }
+
+  #my-leaflet {
+    height: 100%;
+    width: 100%;
+  }
+
+  .leaflet-user {
+    padding: 5px;
+  }
+
+
 }
 
 </style>

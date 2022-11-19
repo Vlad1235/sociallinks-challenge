@@ -38,6 +38,7 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
   padding: 40px;
   width: 1140px;
@@ -45,11 +46,75 @@ export default {
 }
 
 .main__wrapper {
+  padding: 20px;
   display: grid;
-  grid-template-columns: 800px 300px;
+  grid-template-columns: 700px 300px;
   grid-template-rows: minmax(245px, auto) minmax(255px, auto);
   grid-auto-rows: minmax(245px, auto);
   column-gap: 40px;
   row-gap: 10px;
+  justify-content: center;
 }
+
+@media (max-width: 992px) {
+
+  .container {
+    padding: 20px;
+    width: 992px;
+    margin: 0 auto;
+  }
+
+  .main__wrapper {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 600px 200px;
+    grid-template-rows: minmax(245px, auto) minmax(255px, auto);
+    grid-auto-rows: minmax(245px, auto);
+    column-gap: 40px;
+    row-gap: 10px;
+    justify-content: center;
+  }
+
+
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    padding: 20px;
+    width: 768px;
+    margin: 0 auto;
+  }
+
+  .main__wrapper {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 500px 200px;
+    grid-template-rows: minmax(245px, auto) minmax(255px, auto);
+    grid-auto-rows: minmax(245px, auto);
+    column-gap: 30px;
+    row-gap: 10px;
+    justify-content: center;
+  }
+
+}
+
+@media (max-width: 425px) {
+
+  .container {
+    padding: 10px;
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  .main__wrapper {
+    display: grid;
+    grid-template-columns: 300px;
+    grid-template-rows: minmax(300px, auto);
+    grid-auto-rows: minmax(300px, auto);
+    justify-content: center;
+  }
+
+}
+
 </style>
